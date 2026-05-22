@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>open weather map</title>
+</head>
+
+<body>
+  <h1>서울 날씨</h1>
+  <h3>현재 온도 : <span id="ctemp"></span>°C</h3>
+  <h3>현재 습도 : <span id="chum"></span>%</h3>
+  <h3>풍속 : <span id="wind"></span>m/s</h3>
+  <img id="icon" src="https://openweathermap.org/payload/api/media/file/04d.png" alt="" />
+  <script>
+
+    const ctemp = document.querySelector("#ctemp");
+    const chum = document.querySelector("#chum");
+    const icon = document.querySelector("#icon");
+    const desc = document.querySelector("#desc");
+    const wind = document.querySelector("#wind");
+
+    fetch(
+      "https://api.openweathermap.org/data/2.5/weather?id=1583992&appid=9d0a3d206bb298a2feb5c2c4c44dce58&units=metric",
+    )
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        console.log(result.main.temp);
+        console.log(result.weather[0].icon); //04d
+        let imgURL = `https://openweathermap.org/payload/api/media/file/${result.weather[0].icon}.png`;
+        ctemp.innerText = result.main.temp;
+        chum.innerText = result.main.humidity;
+        desc.innerText = result.weather[0].description;
+        wind.innerText = result.wind.speed;
+        icon.setAttribute("src", imgURL);
+      });
+  </script>
+</body>
+
+</html>
